@@ -1,6 +1,6 @@
 # pagecache_ttl
 
-## Motivation
+# Motivation
 
 The are some application which strongly rely on responding from cache for a decent performance.
 I tried to find a tool which provides the current cache retention time of the pages accessed via  READ or WRITE operation, I mean basically a metric of a server saying “ I guarantee I have the last X minutes in page cache”
@@ -14,12 +14,12 @@ Also this metric can give us a clearer view while adding more resources.
 I tried to find a way to get this metric via eBPF but I did not find any way to track the “eviction time” of pages in the inactive list of the LRU, so the idea is to get this information via “user land”
 
 
-## Compatibility 
+# Compatibility 
 Linux OS as it relies on the LRU lists (active and inactive) algorithm 
 
 
 
-## Overview
+# Overview
 Memory administration is a very complex topic, basically the Kernel OS maintains 2 LRU list for keeping pages in memory (cached) in order to reduce the disk access.
 The 2 LRU lists are called inactive and active. 
 
@@ -30,17 +30,17 @@ What this tool does is to keep track of the inactive LRU list, it creates dummy 
 Knowing the file creation time we can know what is the oldest created file that still remains in memory.
 
 
-## Technical details
+# Technical details
 
-# How does the tool knows if the page is memory?
+## How does the tool knows if the page is memory?
 It uses the [mincore()](https://man7.org/linux/man-pages/man2/mincore.2.html) system call via a python C module.
 
-# Is it expensive in terms of performance?
+## Is it expensive in terms of performance?
 This tool consumes almost nil resources. It creates files of 4K every X time interval we use, the creation time is read from the filename so we use one readdir() system call instead of several stat()
 Also it sorts the file lists in order to find the expired or non-cached file as quick as possible and delete the evicted files.
 
 
-## Installation
+# Installation
 
 Via pip:
 ```console
@@ -53,7 +53,7 @@ Local in this repository root:
 foo@bar:~# pip install -e .
 ```
 
-## Example
+# Example
 ```console
 foo@bar:~# /usr/local/bin/pagecache --help
 usage: pagecache [-h] [--tmp-dir TMP_DIR]
@@ -85,7 +85,7 @@ optional arguments:
 ```
 
 
-### Real life expample
+# Real life expample
 Kafka is a perfect example, we see in “real time” 
 
 Kafka is a perfect one, This distributed system has several producers which are constantly writing new pages in memory, then there are several consumers which read the produced records. With this metric we will be able  to predict if consumers will read either from memory or disk knowing the consumer group lag.

@@ -1,8 +1,9 @@
 import inspect
 import os
 import sys
+from pathlib import Path
 
-from setuptools import find_packages, setup, Extension
+from setuptools import Extension, find_packages, setup
 from setuptools.command.test import test as TestCommand
 
 __location__ = os.path.join(
@@ -10,6 +11,9 @@ __location__ = os.path.join(
 )
 
 version = "0.0.2"
+
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 
 
 def get_install_requirements(path):
@@ -20,6 +24,8 @@ def get_install_requirements(path):
 
 setup(
     name="pagecache_ttl",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     version=version,
     description="Monitor the minimal TTL of cached pages by the OS",
     author="Datastreaming",
@@ -30,6 +36,6 @@ setup(
     zip_safe=False,
     entry_points={"console_scripts": ["pagecache=pagecache.cli:main"]},
     ext_modules=[
-          Extension('cache', ['pagecache/src/cachemodule.c']),
-      ],
+        Extension("cache", ["pagecache/src/cachemodule.c"]),
+    ],
 )
