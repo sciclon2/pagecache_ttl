@@ -11,6 +11,9 @@ __location__ = os.path.join(
 
 version = "0.0.2"
 
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
+
 
 def get_install_requirements(path):
     content = open(os.path.join(__location__, path)).read()
@@ -20,6 +23,8 @@ def get_install_requirements(path):
 
 setup(
     name="pagecache_ttl",
+    long_description=long_description,
+    long_description_content_type='text/markdown'
     version=version,
     description="Monitor the minimal TTL of cached pages by the OS",
     author="Datastreaming",
