@@ -9,7 +9,7 @@ __location__ = os.path.join(
     os.getcwd(), os.path.dirname(inspect.getfile(inspect.currentframe()))
 )
 
-version = "0.0.1"
+version = "0.0.2"
 
 
 def get_install_requirements(path):
