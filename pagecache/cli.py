@@ -17,7 +17,7 @@ def parseargs():
         type=str,
         default="tmp/",
         help="Sets the tmp directory wher ehte program stores the tracking dummy files.",
-        required=False,
+        required=True,
     )
     parser.add_argument(
         "--interval-seconds",
