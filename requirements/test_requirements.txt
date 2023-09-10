@@ -1,0 +1,9 @@
+black==23.7.0
+flake8==6.1.0
+isort==5.12.0
+pytest==7.4.0
+mock==5.1.0
+python-daemon==3.0.1
+datadog==0.46.0
+pid==3.0.4
+mock-open==1.4.0
