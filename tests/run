@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -o nounset
+set -o errexit
+
+
+echo "Installing pagecache_ttl..."
+pip install -e .
+
+echo "Installing test libs..."
+pip3 install -r requirements/test_requirements.txt
+ 
+echo "Running Flake8 tests..."
+flake8 --ignore=E501 pagecache tests 
+
+echo "Running isort check..."
+isort --profile black -c pagecache tests
+
+
+pytest -v -s -rxs tests

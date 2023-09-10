@@ -1,0 +1,2 @@
+class TmpDirDoesNotExist(Exception):
+    pass
