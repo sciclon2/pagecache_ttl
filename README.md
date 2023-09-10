@@ -2,7 +2,7 @@
 
 # Motivation
 
-The are some application which strongly rely on responding from cache for a decent performance.
+The are some applications which strongly rely on responding from cache for a decent performance.
 I tried to find a tool which provides the current cache retention time of the pages accessed via  READ or WRITE operation, I mean basically a metric of a server saying “ I guarantee I have the last X minutes in page cache”
 
 Why? There are some applications which generate new content (WRITES) and the are consumed very quick (READS) .
@@ -85,7 +85,7 @@ optional arguments:
 ```
 
 
-# Real life expample
+# Real life example
 Kafka is a perfect example, we see in “real time” 
 
 Kafka is a perfect one, This distributed system has several producers which are constantly writing new pages in memory, then there are several consumers which read the produced records. With this metric we will be able  to predict if consumers will read either from memory or disk knowing the consumer group lag.
