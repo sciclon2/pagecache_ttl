@@ -24,7 +24,7 @@ def get_install_requirements(path):
 setup(
     name="pagecache_ttl",
     long_description=long_description,
-    long_description_content_type='text/markdown'
+    long_description_content_type='text/markdown',
     version=version,
     description="Monitor the minimal TTL of cached pages by the OS",
     author="Datastreaming",
