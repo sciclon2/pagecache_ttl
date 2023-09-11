@@ -2,11 +2,12 @@ import logging
 
 
 def configure_logging(log_level, log_file):
-    log_level = logging.INFO
     if log_level == "DEBUG":
         log_level = logging.DEBUG
+    else:
+        log_level = logging.INFO
 
-    logger = logging.getLogger("pagecache_ttl")
+    logger = logging.getLogger("pagecache")
     logger.setLevel(log_level)
     formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(message)s")
 

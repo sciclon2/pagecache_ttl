@@ -34,7 +34,7 @@ class PageCacheMonitor(object):
         if send_metrics_to_dogstatsd:
             self.dogstatsd_options = {"statsd_host": "127.0.0.1", "statsd_port": 8125}
             initialize(**self.dogstatsd_options)
-            self.dogstatsd_prefix = "pagecache_ttl.min_cached_time_seconds"
+            self.dogstatsd_metric_name = "pagecache_ttl.min_cached_time_seconds"
             self.statsd = statsd
 
     def _create_new_file(self):
@@ -189,10 +189,10 @@ class PageCacheMonitor(object):
         """
         Sends metrics to DogStatsD (localhost)
         """
-        self.statsd.gauge(self.dogstatsd_prefix, min_cached_time)
+        self.statsd.gauge(self.dogstatsd_metric_name, min_cached_time)
         logger.debug(
             "Delivered metric to DogStatsD: {}:{}".format(
-                self.dogstatsd_prefix, min_cached_time
+                self.dogstatsd_metric_name, min_cached_time
             )
         )
 
