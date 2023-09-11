@@ -50,9 +50,9 @@ def parseargs():
     parser.add_argument(
         "--log-level",
         type=str,
-        choices=["INFO", "WARNING", "DEBUG"],
+        choices=["INFO", "DEBUG"],
         default="INFO",
-        help="Sets the debug level",
+        help="Sets the log level",
         required=False,
     )
     parser.add_argument(
@@ -67,7 +67,6 @@ def parseargs():
 
 def load_daemon_mode(args, log_file, log_file_fd):
     context = daemon.DaemonContext(
-        working_directory="/opt/pagecache_ttl",
         umask=0o002,
         pidfile=PidFile(pidname=log_file),
     )
@@ -78,6 +77,7 @@ def load_daemon_mode(args, log_file, log_file_fd):
             args.tmp_dir,
             args.interval_seconds,
             args.max_time_window_seconds,
+            args.log_file,
             args.send_metrics_to_dogstatsd,
         )
         pagecache_monitor.run()
@@ -88,6 +88,7 @@ def load_script_mode(args):
         args.tmp_dir,
         args.interval_seconds,
         args.max_time_window_seconds,
+        args.log_file,
         args.send_metrics_to_dogstatsd,
     )
     pagecache_monitor.run()
