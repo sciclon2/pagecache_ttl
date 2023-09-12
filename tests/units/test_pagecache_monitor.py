@@ -229,7 +229,9 @@ def test_deliver_metrics_to_dogstatsd():
         pcm._deliver_metrics_to_dogstatsd(min_cached_time)
 
     # Check the method was called with the proper argument of min_cached_time
-    mock_statsd_gauge.assert_called_once_with(pcm.dogstatsd_metric_name, min_cached_time)
+    mock_statsd_gauge.assert_called_once_with(
+        pcm.dogstatsd_metric_name, min_cached_time
+    )
 
 
 def test_report_metric():

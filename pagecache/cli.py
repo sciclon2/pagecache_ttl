@@ -1,5 +1,8 @@
 import argparse
 import logging
+import os
+import signal
+import sys
 
 import daemon
 from pid import PidFile
@@ -65,12 +68,23 @@ def parseargs():
     return parser.parse_args()
 
 
-def load_daemon_mode(args, log_file, log_file_fd):
+def signal_term_handler(signal, frame):
+    logger.info(
+        "Terminating PageCache TTL service ({} mode)...".format(
+            os.environ["EXECUTION_MODE"]
+        )
+    )
+    logging.shutdown()
+    sys.exit(0)
+
+
+def load_daemon_mode(args, log_file_fd):
     context = daemon.DaemonContext(
         umask=0o002,
-        pidfile=PidFile(pidname=log_file),
+        pidfile=PidFile(pidname="/var/run/pagecache_ttl.pid"),
     )
     context.files_preserve = [log_file_fd]
+    context.signal_map = {signal.SIGTERM: signal_term_handler}
 
     with context:
         pagecache_monitor = PageCacheMonitor(
@@ -91,6 +105,9 @@ def load_script_mode(args):
         args.log_file,
         args.send_metrics_to_dogstatsd,
     )
+
+    signal.signal(signal.SIGTERM, signal_term_handler)
+    signal.signal(signal.SIGINT, signal_term_handler)
     pagecache_monitor.run()
 
 
@@ -99,8 +116,10 @@ def main():
     log_file_fd = configure_logging(args.log_level, args.log_file)
 
     if args.daemon:
+        os.environ["EXECUTION_MODE"] = "daemon"
         logger.info("Starting PageCache TTL service as daemon mode...")
         load_daemon_mode(args, args.log_file, log_file_fd)
     else:
+        os.environ["EXECUTION_MODE"] = "script"
         logger.info("Starting PageCache TTL as script mode...")
         load_script_mode(args)
