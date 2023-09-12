@@ -118,7 +118,7 @@ def main():
     if args.daemon:
         os.environ["EXECUTION_MODE"] = "daemon"
         logger.info("Starting PageCache TTL service as daemon mode...")
-        load_daemon_mode(args, args.log_file, log_file_fd)
+        load_daemon_mode(args, log_file_fd)
     else:
         os.environ["EXECUTION_MODE"] = "script"
         logger.info("Starting PageCache TTL as script mode...")
